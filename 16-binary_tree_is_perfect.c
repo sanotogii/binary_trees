@@ -37,6 +37,25 @@ size_t binary_tree_height(const binary_tree_t *tree)
 }
 
 /**
+ * binary_tree_balance - Counts the total number of nodes in a binary tree.
+ *
+ * @tree: A pointer to the root of the binary tree.
+ *
+ * Description:
+ * This function recursively counts and returns the total number of nodes
+ * in the binary tree starting from the specified root node.
+ *
+ * Return: The number of nodes in the binary tree.
+ */
+
+int binary_tree_balance(const binary_tree_t *tree)
+{
+	if (tree == NULL)
+		return (0);
+	return (height(tree->left) - height(tree->right));
+}
+
+/**
  * binary_tree_is_perfect - Checks if a binary tree is perfect.
  *
  * @tree: A pointer to the root node of the binary tree.
@@ -53,17 +72,16 @@ size_t binary_tree_height(const binary_tree_t *tree)
 
 int binary_tree_is_perfect(const binary_tree_t *tree)
 {
-	size_t lheight, rheight;
 
 	if (tree == NULL)
 		return (0);
-
-	lheight = binary_tree_height(tree->left);
-	rheight = binary_tree_height(tree->right);
-	if (lheight == rheight)
+	if (binary_tree_balance(tree) == 0)
 	{
-		if (binary_tree_is_perfect(tree->left) && binary_tree_is_perfect(tree->right))
+
+		if (tree->right == NULL && tree->left == NULL)
 			return (1);
+		return (binary_tree_is_perfect(tree->left) &&
+				binary_tree_is_perfect(tree->right));
 	}
 	return (0);
 }
